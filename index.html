@@ -4,343 +4,2175 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FormWheel Decode</title>
+
 <style>
 *{box-sizing:border-box}
-:root{--bg:#f7f8fc;--card:#fff;--text:#171923;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--soft:#f1f3f7;--danger:#dc2626}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans KR",sans-serif}
-header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav{max-width:1150px;margin:auto;height:64px;padding:0 20px;display:flex;align-items:center;gap:24px}
-.logo{font-size:20px;font-weight:800;text-decoration:none;color:var(--text);white-space:nowrap}
-.wheel{display:inline-flex;width:25px;height:25px;border:4px solid #111827;border-radius:50%;vertical-align:-6px;margin:0 3px;position:relative}
-.wheel:after{content:"";position:absolute;width:6px;height:6px;background:#111827;border-radius:50%;left:5px;top:5px}
-nav{display:flex;gap:8px;margin-left:auto}
-nav a{color:#4b5563;text-decoration:none;padding:8px 11px;border-radius:9px;font-size:14px}
-nav a:hover{background:var(--soft);color:var(--text)}
-main{max-width:1150px;margin:0 auto;padding:48px 20px 70px}
-.hero{text-align:center;margin-bottom:30px}
-.badge{display:inline-block;background:#111827;color:white;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:13px}
-h1{font-size:40px;margin:0 0 10px;letter-spacing:-1.5px}
-.hero p{color:var(--muted);margin:0;font-size:15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 5px 22px rgba(20,25,40,.04)}
-.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:15px}
-select,button,input{font:inherit}
-select{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px;cursor:pointer}
-button{border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-button:hover{opacity:.88}
-button.secondary{background:var(--soft);color:var(--text)}
-button.danger{background:#fee2e2;color:#991b1b}
-textarea{width:100%;min-height:300px;resize:vertical;border:1px solid var(--line);border-radius:13px;padding:15px;font:14px/1.6 Consolas,monospace;outline:none;background:#fff}
-textarea:focus{border-color:#9ca3af}
-.label{font-size:12px;font-weight:800;color:#6b7280;margin:0 0 8px}
-.mode{display:flex;background:var(--soft);border-radius:11px;padding:4px;margin-bottom:15px}
-.mode button{flex:1;background:transparent;color:#6b7280;padding:9px}
-.mode button.active{background:#fff;color:#111827;box-shadow:0 1px 5px rgba(0,0,0,.08)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.result{min-height:300px;white-space:pre-wrap;word-break:break-word}
-.status{margin-top:12px;color:var(--muted);font-size:13px;min-height:18px}
-.section{margin-top:18px}
-.detect-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.detect{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-.detect b{display:block;margin-bottom:4px}
-.detect span{font-size:12px;color:var(--muted)}
-.number-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.num{background:var(--soft);border-radius:12px;padding:12px}
-.num b{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
-.num code{font-size:14px;word-break:break-all}
-.help{font-size:12px;color:var(--muted);line-height:1.6;margin-top:9px}
-.full{grid-column:1/-1}
-footer{text-align:center;color:#9ca3af;font-size:12px;padding:20px}
+
+:root{
+  --bg:#f7f8fc;
+  --card:#fff;
+  --text:#171923;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --soft:#f1f3f7;
+  --accent:#111827;
+  --success:#15803d;
+  --error:#dc2626;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Noto Sans KR",sans-serif;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  max-width:1150px;
+  height:64px;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+.logo{
+  color:var(--text);
+  text-decoration:none;
+  font-size:20px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.wheel{
+  display:inline-flex;
+  width:25px;
+  height:25px;
+  border:4px solid #111827;
+  border-radius:50%;
+  vertical-align:-6px;
+  margin:0 3px;
+  position:relative;
+}
+
+.wheel:after{
+  content:"";
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:#111827;
+  border-radius:50%;
+  left:5px;
+  top:5px;
+}
+
+nav{
+  display:flex;
+  gap:7px;
+  margin-left:auto;
+}
+
+nav a{
+  color:#4b5563;
+  text-decoration:none;
+  padding:8px 11px;
+  border-radius:9px;
+  font-size:14px;
+}
+
+nav a:hover{
+  background:var(--soft);
+  color:var(--text);
+}
+
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:44px 20px 70px;
+}
+
+.hero{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.badge{
+  display:inline-block;
+  background:#111827;
+  color:white;
+  padding:6px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:13px;
+}
+
+h1{
+  font-size:40px;
+  letter-spacing:-1.5px;
+  margin:0 0 10px;
+}
+
+.hero p{
+  color:var(--muted);
+  margin:0;
+  font-size:15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 5px 22px rgba(20,25,40,.04);
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+h2,h3{
+  margin:0 0 8px;
+}
+
+h3{
+  font-size:18px;
+}
+
+.description{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.65;
+  margin:0 0 16px;
+}
+
+.mode{
+  display:flex;
+  gap:4px;
+  padding:4px;
+  background:var(--soft);
+  border-radius:11px;
+  margin-bottom:14px;
+}
+
+.mode button{
+  flex:1;
+  background:transparent;
+  color:#6b7280;
+  box-shadow:none;
+}
+
+.mode button.active{
+  background:white;
+  color:#111827;
+  box-shadow:0 1px 5px rgba(0,0,0,.08);
+}
+
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-bottom:13px;
+}
+
+select,
+input,
+button{
+  font:inherit;
+}
+
+select,
+input{
+  border:1px solid var(--line);
+  background:white;
+  border-radius:10px;
+  padding:10px 12px;
+  outline:none;
+}
+
+select{
+  cursor:pointer;
+  flex:1;
+  min-width:190px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#9ca3af;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  background:var(--accent);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.87;
+}
+
+button.secondary{
+  background:var(--soft);
+  color:var(--text);
+}
+
+button.success{
+  background:#166534;
+}
+
+button.small{
+  padding:7px 10px;
+  font-size:12px;
+}
+
+.label{
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin:0 0 8px;
+}
+
+textarea{
+  width:100%;
+  min-height:270px;
+  resize:vertical;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:15px;
+  outline:none;
+  background:#fff;
+  font:14px/1.6 Consolas,Monaco,monospace;
+}
+
+#output{
+  min-height:270px;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:11px;
+}
+
+.status{
+  min-height:20px;
+  margin-top:10px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.status.success{
+  color:var(--success);
+}
+
+.status.error{
+  color:var(--error);
+}
+
+.tool-info{
+  background:var(--soft);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-top:13px;
+}
+
+.tool-info strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.tool-info span{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.detect-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+
+.detect{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:13px;
+  background:white;
+}
+
+.detect strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:14px;
+}
+
+.detect span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.detect button{
+  margin-top:9px;
+  width:100%;
+}
+
+.detect.primary{
+  border-color:#111827;
+  box-shadow:0 0 0 2px rgba(17,24,39,.05);
+}
+
+.number-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+
+.num{
+  background:var(--soft);
+  border-radius:12px;
+  padding:13px;
+  min-width:0;
+}
+
+.num b{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.num code{
+  font:14px Consolas,monospace;
+  word-break:break-all;
+}
+
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+
+.tool{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:14px;
+  background:white;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.tool:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+.tool b{
+  display:block;
+  margin-bottom:5px;
+}
+
+.tool span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.empty{
+  color:var(--muted);
+  font-size:13px;
+  padding:8px 0;
+}
+
+footer{
+  text-align:center;
+  color:#9ca3af;
+  font-size:12px;
+  padding:20px;
+}
+
 @media(max-width:800px){
- .grid{grid-template-columns:1fr}.full{grid-column:auto}.number-grid{grid-template-columns:repeat(2,1fr)}
- h1{font-size:32px}nav a:nth-child(n+3){display:none}
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .detect-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .tools-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .number-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  h1{
+    font-size:32px;
+  }
+
+  nav a:nth-child(n+3){
+    display:none;
+  }
+}
+
+@media(max-width:520px){
+  main{
+    padding:30px 13px 50px;
+  }
+
+  .nav{
+    padding:0 13px;
+  }
+
+  nav a{
+    display:none;
+  }
+
+  .card{
+    padding:15px;
+    border-radius:15px;
+  }
+
+  .detect-grid,
+  .tools-grid{
+    grid-template-columns:1fr;
+  }
+
+  .number-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  textarea{
+    min-height:220px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+  }
+
+  select,
+  .toolbar button{
+    width:100%;
+  }
 }
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="nav">
-<a class="logo" href="https://semicolonxss.github.io/Formwheel/">Form<span class="wheel"></span>Wheel</a>
-<nav>
-<a href="https://semicolonxss.github.io/Formwheel/">Home</a>
-<a href="#converter">Decode</a>
-<a href="#detect">자동 감지</a>
-<a href="#numbers">진법</a>
-</nav>
-</div>
+  <div class="nav">
+    <a class="logo" href="https://semicolonxss.github.io/Formwheel/">
+      Form<span class="wheel"></span>Wheel
+    </a>
+
+    <nav>
+      <a href="https://semicolonxss.github.io/Formwheel/">Home</a>
+      <a href="#converter">Decode</a>
+      <a href="#detect">자동 인식</a>
+      <a href="#numbers">진법</a>
+    </nav>
+  </div>
 </header>
 
 <main>
+
 <section class="hero">
-<div class="badge">FORMWHEEL TOOL</div>
-<h1>Decode</h1>
-<p>인코딩과 디코딩을 한곳에서 빠르게 처리하세요.</p>
+  <div class="badge">FORMWHEEL TOOL</div>
+  <h1>Decode</h1>
+  <p>다양한 인코딩과 디코딩을 한곳에서 빠르게 처리하세요.</p>
 </section>
 
-<div class="grid" id="converter">
+<div class="grid">
+
+<!-- 변환기 -->
+<section class="card" id="converter">
+
+  <div class="mode">
+    <button id="encodeBtn" class="active" onclick="setMode('encode')">
+      Encode
+    </button>
+
+    <button id="decodeBtn" onclick="setMode('decode')">
+      Decode
+    </button>
+  </div>
+
+  <div class="toolbar">
+    <select id="method" onchange="updateToolInfo()">
+
+      <option value="base64">Base64</option>
+      <option value="base32">Base32</option>
+      <option value="hex">Hex / Base16</option>
+      <option value="url">URL Encode</option>
+      <option value="html">HTML Entity</option>
+      <option value="rot13">ROT13</option>
+      <option value="rot47">ROT47</option>
+      <option value="atbash">Atbash</option>
+      <option value="binary">Binary / 2진법</option>
+      <option value="decimal">Decimal / 10진법</option>
+      <option value="hexnumber">Hex Number / 16진법</option>
+      <option value="octal">Octal / 8진법</option>
+      <option value="ascii">ASCII</option>
+      <option value="unicode">Unicode Escape</option>
+      <option value="morse">Morse Code</option>
+
+    </select>
+
+    <button onclick="convert()">변환하기</button>
+  </div>
+
+  <div class="tool-info">
+    <strong id="toolName">Base64</strong>
+    <span id="toolDescription">
+      텍스트를 Base64 문자열로 변환하거나 다시 UTF-8 텍스트로 복원합니다.
+    </span>
+  </div>
+
+  <p class="label" style="margin-top:16px">입력</p>
+
+  <textarea
+    id="input"
+    placeholder="변환할 내용을 입력하세요..."
+  ></textarea>
+
+  <div class="actions">
+    <button class="secondary" onclick="swapText()">↔ 입력 ↔ 결과</button>
+    <button class="secondary" onclick="pasteText()">붙여넣기</button>
+    <button class="secondary" onclick="clearAll()">초기화</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+</section>
+
+
+<!-- 결과 -->
 <section class="card">
-<div class="mode">
-<button id="encodeBtn" class="active" onclick="setMode('encode')">Encode</button>
-<button id="decodeBtn" onclick="setMode('decode')">Decode</button>
-</div>
-<div class="toolbar">
-<select id="method">
-<option value="base64">Base64</option>
-<option value="base32">Base32</option>
-<option value="hex">Hex / Base16</option>
-<option value="url">URL Encoding</option>
-<option value="html">HTML Entity</option>
-<option value="rot13">ROT13</option>
-<option value="rot47">ROT47</option>
-<option value="atbash">Atbash</option>
-<option value="binary">Binary / 2진법</option>
-<option value="octal">Octal / 8진법</option>
-<option value="decimal">Decimal / 10진법</option>
-<option value="ascii">ASCII</option>
-<option value="unicode">Unicode Escape</option>
-<option value="morse">Morse Code</option>
-</select>
-<button onclick="convert()">변환하기</button>
-</div>
-<p class="label">입력</p>
-<textarea id="input" placeholder="변환할 내용을 입력하세요..."></textarea>
-<div class="actions">
-<button class="secondary" onclick="swapText()">↔ 입력 ↔ 결과</button>
-<button class="secondary" onclick="pasteText()">붙여넣기</button>
-<button class="secondary" onclick="clearAll()">초기화</button>
-</div>
-<div class="status" id="status"></div>
+
+  <p class="label">결과</p>
+
+  <textarea
+    id="output"
+    readonly
+    placeholder="변환 결과가 여기에 표시됩니다."
+  ></textarea>
+
+  <div class="actions">
+    <button onclick="copyResult()">결과 복사</button>
+    <button class="secondary" onclick="useResult()">
+      결과를 입력으로
+    </button>
+  </div>
+
+  <div class="tool-info">
+    <strong>💡 사용 팁</strong>
+    <span>
+      Encode는 일반 텍스트를 변환할 때,
+      Decode는 이미 변환된 문자열을 원래 형태로 되돌릴 때 사용합니다.
+      자동 인식을 이용하면 형식을 직접 선택하지 않아도 됩니다.
+    </span>
+  </div>
+
 </section>
 
-<section class="card">
-<p class="label">결과</p>
-<textarea id="output" class="result" readonly placeholder="변환 결과가 여기에 표시됩니다."></textarea>
-<div class="actions">
-<button onclick="copyResult()">결과 복사</button>
-<button class="secondary" onclick="useResult()">결과를 입력으로</button>
-</div>
-<div class="help">※ UTF-8 기준으로 처리합니다. 잘못된 형식은 오류 메시지로 알려줍니다.</div>
-</section>
 
+<!-- 자동 인식 -->
 <section class="card full" id="detect">
-<h3>🔍 자동 분석</h3>
-<p class="help">문자열을 입력하면 가능한 인코딩/표현 형식을 검사합니다.</p>
-<div class="actions">
-<button onclick="detect()">자동 분석하기</button>
-<button class="secondary" onclick="decodeAll()">가능한 변환 한 단계 실행</button>
-</div>
-<div class="detect-grid" id="detectResult" style="margin-top:14px">
-<div class="detect"><b>대기 중</b><span>입력 후 자동 분석을 눌러주세요.</span></div>
-</div>
+
+  <h3>🔍 자동 인식</h3>
+
+  <p class="description">
+    입력된 문자열을 분석하여 Base64, URL Encoding, HTML Entity,
+    Hex, Binary, Decimal, Octal, Unicode Escape, Morse 등의
+    가능성이 높은 형식을 찾아냅니다.
+  </p>
+
+  <div class="actions">
+    <button onclick="detect(true)">자동 분석</button>
+    <button class="secondary" onclick="autoDecode()">
+      자동 인식 → Decode
+    </button>
+  </div>
+
+  <div id="detectResult" class="detect-grid">
+    <div class="detect">
+      <strong>대기 중</strong>
+      <span>입력 내용을 넣으면 자동으로 형식을 분석할 수 있습니다.</span>
+    </div>
+  </div>
+
 </section>
 
+
+<!-- 진법 -->
 <section class="card full" id="numbers">
-<h3>🔢 진법 변환기</h3>
-<p class="help">10진수 정수를 입력하면 주요 진법을 한 번에 확인합니다.</p>
-<div class="toolbar" style="margin-top:14px">
-<input id="decimalInput" type="text" placeholder="예: 255" style="flex:1;min-width:180px;border:1px solid var(--line);border-radius:10px;padding:10px 12px">
-<button onclick="convertNumbers()">진법 변환</button>
-</div>
-<div class="number-grid" id="numberResult">
-<div class="num"><b>2진수</b><code>-</code></div>
-<div class="num"><b>8진수</b><code>-</code></div>
-<div class="num"><b>10진수</b><code>-</code></div>
-<div class="num"><b>16진수</b><code>-</code></div>
-</div>
+
+  <h3>🔢 진법 변환</h3>
+
+  <p class="description">
+    하나의 숫자를 2진수, 8진수, 10진수, 16진수로 한 번에 변환합니다.
+  </p>
+
+  <div class="toolbar">
+
+    <input
+      id="decimalInput"
+      type="text"
+      placeholder="10진수 입력 예: 255"
+    >
+
+    <button onclick="convertNumbers()">진법 변환</button>
+
+  </div>
+
+  <div id="numberResult" class="number-grid">
+
+    <div class="num">
+      <b>2진수</b>
+      <code>-</code>
+    </div>
+
+    <div class="num">
+      <b>8진수</b>
+      <code>-</code>
+    </div>
+
+    <div class="num">
+      <b>10진수</b>
+      <code>-</code>
+    </div>
+
+    <div class="num">
+      <b>16진수</b>
+      <code>-</code>
+    </div>
+
+  </div>
+
 </section>
+
+
+<!-- 도구 설명 -->
+<section class="card full">
+
+  <h3>📚 지원 도구</h3>
+
+  <p class="description">
+    원하는 도구를 선택하면 위 변환기에서 바로 사용할 수 있습니다.
+  </p>
+
+  <div class="tools-grid">
+
+    <div class="tool" onclick="selectTool('base64')">
+      <b>Base64</b>
+      <span>바이너리 데이터를 문자열 형태로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('base32')">
+      <b>Base32</b>
+      <span>A-Z와 2-7을 사용하는 인코딩 방식입니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('hex')">
+      <b>Hex / Base16</b>
+      <span>데이터를 16진수 바이트로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('url')">
+      <b>URL Encode</b>
+      <span>URL에서 사용할 수 있도록 문자를 인코딩합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('html')">
+      <b>HTML Entity</b>
+      <span>&amp;amp;, &amp;lt; 등의 HTML 엔티티를 처리합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('rot13')">
+      <b>ROT13</b>
+      <span>알파벳을 13칸 이동시키는 간단한 치환 방식입니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('rot47')">
+      <b>ROT47</b>
+      <span>ASCII 출력 가능 문자 영역을 47칸 이동합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('atbash')">
+      <b>Atbash</b>
+      <span>A↔Z, B↔Y처럼 알파벳을 뒤집습니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('binary')">
+      <b>Binary</b>
+      <span>데이터를 0과 1로 이루어진 2진수로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('decimal')">
+      <b>Decimal</b>
+      <span>UTF-8 바이트를 10진수 숫자로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('hexnumber')">
+      <b>Hex Number</b>
+      <span>숫자를 16진수로 변환합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('octal')">
+      <b>Octal</b>
+      <span>UTF-8 바이트를 8진수로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('ascii')">
+      <b>ASCII</b>
+      <span>문자와 숫자 코드 사이를 변환합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('unicode')">
+      <b>Unicode Escape</b>
+      <span>문자를 \\uXXXX 형태로 표현합니다.</span>
+    </div>
+
+    <div class="tool" onclick="selectTool('morse')">
+      <b>Morse Code</b>
+      <span>문자를 점(.)과 선(-)으로 이루어진 모스 부호로 변환합니다.</span>
+    </div>
+
+  </div>
+
+</section>
+
 </div>
 </main>
-<footer>FormWheel Decode · Single HTML Tool</footer>
+
+<footer>
+  FormWheel Decode · Single HTML Tool
+</footer>
+
 
 <script>
-let mode='encode';
+
+let mode="encode";
+
 const $=id=>document.getElementById(id);
 
+
+/* =========================
+   도구 설명
+========================= */
+
+const toolInfo={
+
+base64:[
+"Base64",
+"텍스트를 Base64 문자열로 변환하거나 다시 UTF-8 텍스트로 복원합니다."
+],
+
+base32:[
+"Base32",
+"텍스트를 Base32 형식으로 변환하거나 복원합니다."
+],
+
+hex:[
+"Hex / Base16",
+"UTF-8 데이터를 16진수 바이트로 변환합니다."
+],
+
+url:[
+"URL Encode",
+"URL에서 안전하게 사용할 수 있도록 특수문자를 인코딩합니다."
+],
+
+html:[
+"HTML Entity",
+"<, >, &, 따옴표 등의 문자를 HTML Entity로 변환합니다."
+],
+
+rot13:[
+"ROT13",
+"영문 알파벳을 13칸 이동합니다. Encode와 Decode가 동일한 방식으로 작동합니다."
+],
+
+rot47:[
+"ROT47",
+"ASCII 출력 가능 문자 영역을 47칸 이동합니다."
+],
+
+atbash:[
+"Atbash",
+"영문 알파벳의 순서를 뒤집어 변환합니다."
+],
+
+binary:[
+"Binary / 2진법",
+"UTF-8 데이터를 0과 1로 이루어진 2진수로 변환합니다."
+],
+
+decimal:[
+"Decimal / 10진법",
+"UTF-8 바이트를 10진수 숫자로 표현합니다."
+],
+
+hexnumber:[
+"Hex Number / 16진법",
+"숫자를 16진수로 변환하거나 16진수를 10진수로 복원합니다."
+],
+
+octal:[
+"Octal / 8진법",
+"UTF-8 바이트를 8진수로 표현합니다."
+],
+
+ascii:[
+"ASCII",
+"문자와 ASCII 숫자 코드 사이를 변환합니다."
+],
+
+unicode:[
+"Unicode Escape",
+"문자를 \\uXXXX 형태의 Unicode Escape로 변환합니다."
+],
+
+morse:[
+"Morse Code",
+"문자를 점과 선으로 이루어진 모스 부호로 변환합니다."
+]
+
+};
+
+
+function updateToolInfo(){
+
+  const m=$("method").value;
+  $("toolName").textContent=toolInfo[m][0];
+  $("toolDescription").textContent=toolInfo[m][1];
+
+}
+
+
+/* =========================
+   Encode / Decode
+========================= */
+
 function setMode(m){
- mode=m;
- $('encodeBtn').classList.toggle('active',m==='encode');
- $('decodeBtn').classList.toggle('active',m==='decode');
- $('status').textContent='';
+
+  mode=m;
+
+  $("encodeBtn").classList.toggle("active",m==="encode");
+  $("decodeBtn").classList.toggle("active",m==="decode");
+
+  $("status").textContent="";
+
 }
 
-function utf8Encode(s){return new TextEncoder().encode(s)}
-function utf8Decode(a){return new TextDecoder('utf-8',{fatal:true}).decode(a)}
 
-function b64encode(s){
- let bytes=utf8Encode(s), bin='';
- for(const b of bytes) bin+=String.fromCharCode(b);
- return btoa(bin);
-}
-function b64decode(s){
- s=s.trim();
- let bin=atob(s), bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));
- return utf8Decode(bytes);
+/* =========================
+   UTF-8
+========================= */
+
+function utf8Encode(s){
+
+  return new TextEncoder().encode(s);
+
 }
 
-const base32Alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-function base32encode(s){
- let bytes=utf8Encode(s), bits='', out='';
- for(const b of bytes) bits+=b.toString(2).padStart(8,'0');
- while(bits.length%5) bits+='0';
- for(let i=0;i<bits.length;i+=5) out+=base32Alphabet[parseInt(bits.slice(i,i+5),2)];
- while(out.length%8) out+='=';
- return out;
+function utf8Decode(bytes){
+
+  return new TextDecoder("utf-8",{fatal:true}).decode(bytes);
+
 }
-function base32decode(s){
- s=s.toUpperCase().replace(/=+$/,'').replace(/\s+/g,'');
- let bits='';
- for(const c of s){
-   const n=base32Alphabet.indexOf(c);
-   if(n<0) throw Error('올바르지 않은 Base32 문자열입니다.');
-   bits+=n.toString(2).padStart(5,'0');
- }
- const bytes=[];
- for(let i=0;i+8<=bits.length;i+=8) bytes.push(parseInt(bits.slice(i,i+8),2));
- return utf8Decode(new Uint8Array(bytes));
+
+
+/* =========================
+   Base64
+========================= */
+
+function base64Encode(s){
+
+  let bytes=utf8Encode(s);
+  let binary="";
+
+  for(const b of bytes){
+    binary+=String.fromCharCode(b);
+  }
+
+  return btoa(binary);
+
 }
+
+function base64Decode(s){
+
+  s=s.trim();
+
+  let binary=atob(s);
+
+  let bytes=Uint8Array.from(
+    binary,
+    c=>c.charCodeAt(0)
+  );
+
+  return utf8Decode(bytes);
+
+}
+
+
+/* =========================
+   Base32
+========================= */
+
+const base32Alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+function base32Encode(s){
+
+  const bytes=utf8Encode(s);
+
+  let bits="";
+
+  for(const b of bytes){
+    bits+=b.toString(2).padStart(8,"0");
+  }
+
+  while(bits.length%5!==0){
+    bits+="0";
+  }
+
+  let out="";
+
+  for(let i=0;i<bits.length;i+=5){
+
+    out+=base32Alphabet[
+      parseInt(bits.slice(i,i+5),2)
+    ];
+
+  }
+
+  while(out.length%8!==0){
+    out+="=";
+  }
+
+  return out;
+
+}
+
+function base32Decode(s){
+
+  s=s
+    .toUpperCase()
+    .replace(/\s+/g,"")
+    .replace(/=+$/,"");
+
+  let bits="";
+
+  for(const c of s){
+
+    const n=base32Alphabet.indexOf(c);
+
+    if(n<0){
+      throw Error("올바르지 않은 Base32 문자열입니다.");
+    }
+
+    bits+=n.toString(2).padStart(5,"0");
+
+  }
+
+  const bytes=[];
+
+  for(let i=0;i+8<=bits.length;i+=8){
+
+    bytes.push(
+      parseInt(bits.slice(i,i+8),2)
+    );
+
+  }
+
+  return utf8Decode(new Uint8Array(bytes));
+
+}
+
+
+/* =========================
+   Hex
+========================= */
 
 function hexEncode(s){
- return [...utf8Encode(s)].map(x=>x.toString(16).padStart(2,'0')).join(' ');
+
+  return [...utf8Encode(s)]
+    .map(x=>x.toString(16).padStart(2,"0"))
+    .join(" ");
+
 }
+
 function hexDecode(s){
- s=s.replace(/0x/gi,'').replace(/[^0-9a-fA-F]/g,'');
- if(!s || s.length%2) throw Error('Hex 형식이 올바르지 않습니다.');
- const bytes=new Uint8Array(s.match(/../g).map(x=>parseInt(x,16)));
- return utf8Decode(bytes);
+
+  s=s
+    .replace(/0x/gi,"")
+    .replace(/[\s:]/g,"");
+
+  if(
+    !s ||
+    !/^[0-9a-fA-F]+$/.test(s) ||
+    s.length%2!==0
+  ){
+    throw Error("Hex 형식이 올바르지 않습니다.");
+  }
+
+  const bytes=new Uint8Array(
+    s.match(/../g).map(x=>parseInt(x,16))
+  );
+
+  return utf8Decode(bytes);
+
 }
-function urlEncode(s){return encodeURIComponent(s)}
-function urlDecode(s){return decodeURIComponent(s)}
+
+
+/* =========================
+   URL
+========================= */
+
+function urlEncode(s){
+
+  return encodeURIComponent(s);
+
+}
+
+function urlDecode(s){
+
+  return decodeURIComponent(s);
+
+}
+
+
+/* =========================
+   HTML Entity
+========================= */
+
 function htmlEncode(s){
- const div=document.createElement('div'); div.textContent=s; return div.innerHTML;
+
+  const div=document.createElement("div");
+
+  div.textContent=s;
+
+  return div.innerHTML;
+
 }
+
 function htmlDecode(s){
- const doc=new DOMParser().parseFromString(s,'text/html');
- return doc.documentElement.textContent;
+
+  const parser=new DOMParser();
+
+  const doc=parser.parseFromString(
+    s,
+    "text/html"
+  );
+
+  return doc.documentElement.textContent;
+
 }
+
+
+/* =========================
+   ROT13
+========================= */
+
 function rot13(s){
- return s.replace(/[A-Za-z]/g,c=>{
-  const limit=c<='Z'?90:122, n=c.charCodeAt(0)+13;
-  return String.fromCharCode(n<=limit?n:n-26);
- });
+
+  return s.replace(/[A-Za-z]/g,c=>{
+
+    const base=c<="Z"?65:97;
+
+    return String.fromCharCode(
+      base+(c.charCodeAt(0)-base+13)%26
+    );
+
+  });
+
 }
-function rot47(s){return [...s].map(c=>{let n=c.charCodeAt(0);return n>=33&&n<=126?String.fromCharCode(33+(n-33+47)%94):c}).join('')}
-function atbash(s){return s.replace(/[A-Za-z]/g,c=>{let base=c<='Z'?65:97;return String.fromCharCode(base+25-(c.charCodeAt(0)-base))})}
-function binaryEncode(s){return [...utf8Encode(s)].map(x=>x.toString(2).padStart(8,'0')).join(' ')}
+
+
+/* =========================
+   ROT47
+========================= */
+
+function rot47(s){
+
+  return [...s].map(c=>{
+
+    const n=c.charCodeAt(0);
+
+    if(n>=33 && n<=126){
+
+      return String.fromCharCode(
+        33+(n-33+47)%94
+      );
+
+    }
+
+    return c;
+
+  }).join("");
+
+}
+
+
+/* =========================
+   Atbash
+========================= */
+
+function atbash(s){
+
+  return s.replace(/[A-Za-z]/g,c=>{
+
+    const base=c<="Z"?65:97;
+
+    return String.fromCharCode(
+      base+25-(c.charCodeAt(0)-base)
+    );
+
+  });
+
+}
+
+
+/* =========================
+   Binary
+========================= */
+
+function binaryEncode(s){
+
+  return [...utf8Encode(s)]
+    .map(x=>x.toString(2).padStart(8,"0"))
+    .join(" ");
+
+}
+
 function binaryDecode(s){
- let p=s.trim().split(/\s+/); if(!p.length||p.some(x=>!/^[01]{1,8}$/.test(x))) throw Error('2진수는 0과 1로 입력하세요.');
- return utf8Decode(new Uint8Array(p.map(x=>parseInt(x,2))));
+
+  const parts=s.trim().split(/\s+/);
+
+  if(
+    !parts.length ||
+    parts.some(x=>!/^[01]{1,8}$/.test(x))
+  ){
+    throw Error("2진수는 0과 1만 사용해야 합니다.");
+  }
+
+  return utf8Decode(
+    new Uint8Array(
+      parts.map(x=>parseInt(x,2))
+    )
+  );
+
 }
-function octalEncode(s){return [...utf8Encode(s)].map(x=>x.toString(8).padStart(3,'0')).join(' ')}
-function octalDecode(s){
- let p=s.trim().split(/\s+/); if(!p.length||p.some(x=>!/^[0-7]+$/.test(x))) throw Error('8진수 형식이 올바르지 않습니다.');
- return utf8Decode(new Uint8Array(p.map(x=>{let n=parseInt(x,8);if(n>255)throw Error('바이트 값은 0~255(8진수 377 이하)입니다.');return n})));
+
+
+/* =========================
+   Decimal
+========================= */
+
+function decimalEncode(s){
+
+  return [...utf8Encode(s)]
+    .map(x=>x.toString(10))
+    .join(" ");
+
 }
-function decimalEncode(s){return [...utf8Encode(s)].map(x=>x.toString(10)).join(' ')}
+
 function decimalDecode(s){
- let p=s.trim().split(/\s+/); if(!p.length||p.some(x=>!/^\d+$/.test(x))) throw Error('10진수 형식이 올바르지 않습니다.');
- return utf8Decode(new Uint8Array(p.map(x=>{let n=+x;if(n>255)throw Error('바이트 값은 0~255입니다.');return n})));
+
+  const parts=s.trim().split(/\s+/);
+
+  if(
+    !parts.length ||
+    parts.some(x=>!/^\d+$/.test(x))
+  ){
+    throw Error("10진수 형식이 올바르지 않습니다.");
+  }
+
+  const nums=parts.map(x=>{
+
+    const n=Number(x);
+
+    if(n<0 || n>255){
+      throw Error("UTF-8 바이트는 0~255 범위여야 합니다.");
+    }
+
+    return n;
+
+  });
+
+  return utf8Decode(
+    new Uint8Array(nums)
+  );
+
 }
-function asciiEncode(s){return [...s].map(c=>c.codePointAt(0)).join(' ')}
+
+
+/* =========================
+   Hex Number
+========================= */
+
+function hexNumberEncode(s){
+
+  if(!/^-?\d+$/.test(s.trim())){
+    throw Error("정수를 입력하세요.");
+  }
+
+  return BigInt(s.trim())
+    .toString(16)
+    .toUpperCase();
+
+}
+
+function hexNumberDecode(s){
+
+  s=s.trim().replace(/^0x/i,"");
+
+  if(!/^[0-9a-fA-F]+$/.test(s)){
+    throw Error("16진수 숫자가 아닙니다.");
+  }
+
+  return BigInt("0x"+s).toString(10);
+
+}
+
+
+/* =========================
+   Octal
+========================= */
+
+function octalEncode(s){
+
+  return [...utf8Encode(s)]
+    .map(x=>x.toString(8).padStart(3,"0"))
+    .join(" ");
+
+}
+
+function octalDecode(s){
+
+  const parts=s.trim().split(/\s+/);
+
+  if(
+    !parts.length ||
+    parts.some(x=>!/^[0-7]+$/.test(x))
+  ){
+    throw Error("8진수 형식이 올바르지 않습니다.");
+  }
+
+  const nums=parts.map(x=>{
+
+    const n=parseInt(x,8);
+
+    if(n>255){
+      throw Error("각 값은 255 이하의 바이트여야 합니다.");
+    }
+
+    return n;
+
+  });
+
+  return utf8Decode(
+    new Uint8Array(nums)
+  );
+
+}
+
+
+/* =========================
+   ASCII
+========================= */
+
+function asciiEncode(s){
+
+  return [...s]
+    .map(c=>c.codePointAt(0))
+    .join(" ");
+
+}
+
 function asciiDecode(s){
- let p=s.trim().split(/\s+/); if(!p.length||p.some(x=>!/^\d+$/.test(x))) throw Error('ASCII 숫자 형식이 올바르지 않습니다.');
- return p.map(x=>String.fromCodePoint(+x)).join('');
+
+  const parts=s.trim().split(/\s+/);
+
+  if(
+    !parts.length ||
+    parts.some(x=>!/^\d+$/.test(x))
+  ){
+    throw Error("ASCII 숫자 형식이 올바르지 않습니다.");
+  }
+
+  return parts.map(x=>{
+
+    const n=Number(x);
+
+    if(n>1114111){
+      throw Error("유효하지 않은 문자 코드입니다.");
+    }
+
+    return String.fromCodePoint(n);
+
+  }).join("");
+
 }
+
+
+/* =========================
+   Unicode Escape
+========================= */
+
 function unicodeEncode(s){
- // UTF-16 코드 유닛 기준 (이모지 등은 서로게이트 쌍으로 출력)
- return s.split('').map(c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0')).join('');
+
+  return [...s].map(c=>{
+
+    const cp=c.codePointAt(0);
+
+    if(cp<=0xffff){
+
+      return "\\u"+
+        cp.toString(16).padStart(4,"0");
+
+    }
+
+    return "\\u{"+
+      cp.toString(16)+
+      "}";
+
+  }).join("");
+
 }
+
 function unicodeDecode(s){
- return s.replace(/\\u\{([0-9a-fA-F]{1,6})\}/g,(_,h)=>String.fromCodePoint(parseInt(h,16)))
-         .replace(/\\u([0-9a-fA-F]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));
+
+  return s
+    .replace(
+      /\\u\{([0-9a-fA-F]{1,6})\}/g,
+      (_,h)=>String.fromCodePoint(parseInt(h,16))
+    )
+    .replace(
+      /\\u([0-9a-fA-F]{4})/g,
+      (_,h)=>String.fromCharCode(parseInt(h,16))
+    );
+
 }
-const morseMap={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.'};
-const reverseMorse=Object.fromEntries(Object.entries(morseMap).map(([k,v])=>[v,k]));
-function morseEncode(s){return [...s.toUpperCase()].map(c=>c===' '?'/':(morseMap[c]||c)).join(' ')}
-function morseDecode(s){return s.trim().split(/\s+/).map(x=>x==='/'?' ':(reverseMorse[x]||x)).join('')}
+
+
+/* =========================
+   Morse
+========================= */
+
+const morseMap={
+A:".-",B:"-...",C:"-.-.",D:"-..",E:".",
+F:"..-.",G:"--.",H:"....",I:"..",J:".---",
+K:"-.-",L:".-..",M:"--",N:"-.",O:"---",
+P:".--.",Q:"--.-",R:".-.",S:"...",T:"-",
+U:"..-",V:"...-",W:".--",X:"-..-",
+Y:"-.--",Z:"--..",
+
+0:"-----",1:".----",2:"..---",3:"...--",
+4:"....-",5:".....",6:"-....",7:"--...",
+8:"---..",9:"----."
+};
+
+const reverseMorse=
+Object.fromEntries(
+  Object.entries(morseMap)
+    .map(([k,v])=>[v,k])
+);
+
+function morseEncode(s){
+
+  return [...s.toUpperCase()]
+    .map(c=>{
+
+      if(c===" ") return "/";
+
+      return morseMap[c]||c;
+
+    })
+    .join(" ");
+
+}
+
+function morseDecode(s){
+
+  return s.trim()
+    .split(/\s+/)
+    .map(x=>{
+
+      if(x==="/") return " ";
+
+      return reverseMorse[x]||x;
+
+    })
+    .join("");
+
+}
+
+
+/* =========================
+   메인 변환
+========================= */
 
 function convert(){
- const s=$('input').value, m=$('method').value;
- try{
-  let r='';
-  if(m==='base64') r=mode==='encode'?b64encode(s):b64decode(s);
-  if(m==='base32') r=mode==='encode'?base32encode(s):base32decode(s);
-  if(m==='hex') r=mode==='encode'?hexEncode(s):hexDecode(s);
-  if(m==='url') r=mode==='encode'?urlEncode(s):urlDecode(s);
-  if(m==='html') r=mode==='encode'?htmlEncode(s):htmlDecode(s);
-  if(m==='rot13'||m==='rot47'||m==='atbash') r=m==='rot13'?rot13(s):m==='rot47'?rot47(s):atbash(s);
-  if(m==='binary') r=mode==='encode'?binaryEncode(s):binaryDecode(s);
-  if(m==='octal') r=mode==='encode'?octalEncode(s):octalDecode(s);
-  if(m==='decimal') r=mode==='encode'?decimalEncode(s):decimalDecode(s);
-  if(m==='ascii') r=mode==='encode'?asciiEncode(s):asciiDecode(s);
-  if(m==='unicode') r=mode==='encode'?unicodeEncode(s):unicodeDecode(s);
-  if(m==='morse') r=mode==='encode'?morseEncode(s):morseDecode(s);
-  $('output').value=r;
-  $('status').textContent='✓ 변환 완료';
- }catch(e){$('output').value='';$('status').textContent='⚠ '+e.message}
+
+  const s=$("input").value;
+  const m=$("method").value;
+
+  try{
+
+    let result="";
+
+    switch(m){
+
+      case "base64":
+        result=mode==="encode"
+          ?base64Encode(s)
+          :base64Decode(s);
+        break;
+
+      case "base32":
+        result=mode==="encode"
+          ?base32Encode(s)
+          :base32Decode(s);
+        break;
+
+      case "hex":
+        result=mode==="encode"
+          ?hexEncode(s)
+          :hexDecode(s);
+        break;
+
+      case "url":
+        result=mode==="encode"
+          ?urlEncode(s)
+          :urlDecode(s);
+        break;
+
+      case "html":
+        result=mode==="encode"
+          ?htmlEncode(s)
+          :htmlDecode(s);
+        break;
+
+      case "rot13":
+        result=rot13(s);
+        break;
+
+      case "rot47":
+        result=rot47(s);
+        break;
+
+      case "atbash":
+        result=atbash(s);
+        break;
+
+      case "binary":
+        result=mode==="encode"
+          ?binaryEncode(s)
+          :binaryDecode(s);
+        break;
+
+      case "decimal":
+        result=mode==="encode"
+          ?decimalEncode(s)
+          :decimalDecode(s);
+        break;
+
+      case "hexnumber":
+        result=mode==="encode"
+          ?hexNumberEncode(s)
+          :hexNumberDecode(s);
+        break;
+
+      case "octal":
+        result=mode==="encode"
+          ?octalEncode(s)
+          :octalDecode(s);
+        break;
+
+      case "ascii":
+        result=mode==="encode"
+          ?asciiEncode(s)
+          :asciiDecode(s);
+        break;
+
+      case "unicode":
+        result=mode==="encode"
+          ?unicodeEncode(s)
+          :unicodeDecode(s);
+        break;
+
+      case "morse":
+        result=mode==="encode"
+          ?morseEncode(s)
+          :morseDecode(s);
+        break;
+
+    }
+
+    $("output").value=result;
+
+    setStatus("✓ 변환 완료","success");
+
+  }catch(e){
+
+    $("output").value="";
+
+    setStatus(
+      "⚠ "+e.message,
+      "error"
+    );
+
+  }
+
 }
 
-function swapText(){let a=$('input').value;$('input').value=$('output').value;$('output').value=a}
-function useResult(){$('input').value=$('output').value}
-function clearAll(){$('input').value='';$('output').value='';$('status').textContent='';detect()}
-async function pasteText(){try{$('input').value=await navigator.clipboard.readText();detect()}catch(e){$('status').textContent='⚠ 클립보드 접근이 차단되었습니다.'}}
-async function copyResult(){try{await navigator.clipboard.writeText($('output').value);$('status').textContent='✓ 결과를 복사했습니다.'}catch(e){$('status').textContent='⚠ 복사에 실패했습니다.'}}
 
-function tests(s){
- const out=[];
- const add=(name,desc)=>out.push(`<div class="detect"><b>${name}</b><span>${desc}</span></div>`);
- const t=s.trim();
- if(/^[A-Za-z0-9+/]+={0,2}$/.test(t)&&t.length%4===0){
-  try{b64decode(s);add('Base64','유효한 Base64 형식으로 해석될 수 있습니다.')}catch(e){}
- }
- if(/^[A-Z2-7]+=*$/i.test(t)&&t.length%8===0){
-  try{base32decode(s);add('Base32','Base32 형식으로 해석될 수 있습니다.')}catch(e){}
- }
- if(/^(?:[0-9a-fA-F]{2}[\s:]?)+$/.test(t)&&t.replace(/[^0-9a-f]/gi,'').length%2===0) add('Hex','16진수 바이트 형태로 보입니다.');
- if(/%(?:[0-9A-Fa-f]{2})/.test(s)) add('URL Encoding','%XX 형태의 URL 인코딩이 포함되어 있습니다.');
- if(/&(?:amp|lt|gt|quot|#\d+|#x[0-9a-f]+);/i.test(s)) add('HTML Entity','HTML 엔티티가 포함되어 있습니다.');
- if(/\\u(?:[0-9a-fA-F]{4}|\{[0-9a-fA-F]{1,6}\})/.test(s)) add('Unicode Escape','\\uXXXX 형태의 유니코드 이스케이프가 포함되어 있습니다.');
- if(/^[01]+(?:\s+[01]+)*$/.test(t)) add('Binary','2진수 형태로 보입니다.');
- if(/^[0-7]+(?:\s+[0-7]+)*$/.test(t)) add('Octal','8진수 형태로 보입니다.');
- if(/^\d{1,3}(?:\s+\d{1,3})+$/.test(t)) add('Decimal / ASCII','공백으로 구분된 숫자 코드 형태입니다.');
- if(/^[.\-/\s]+$/.test(t)&&/[.\-]/.test(t)) add('Morse','모스 부호일 가능성이 있습니다.');
- return out;
+/* =========================
+   상태 메시지
+========================= */
+
+function setStatus(text,type=""){
+
+  const el=$("status");
+
+  el.textContent=text;
+  el.className="status "+type;
+
 }
-function detect(){
- const s=$('input').value.trim(), box=$('detectResult');
- if(!s){box.innerHTML='<div class="detect"><b>입력이 없습니다.</b><span>분석할 문자열을 입력하세요.</span></div>';return}
- const r=tests(s);
- box.innerHTML=r.length?r.join(''):'<div class="detect"><b>특정 형식을 찾지 못했습니다.</b><span>일반 텍스트이거나 지원하지 않는 형식일 수 있습니다.</span></div>';
+
+
+/* =========================
+   복사 / 초기화
+========================= */
+
+async function copyResult(){
+
+  const text=$("output").value;
+
+  if(!text){
+    setStatus("복사할 결과가 없습니다.","error");
+    return;
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(text);
+
+    setStatus(
+      "✓ 결과를 클립보드에 복사했습니다.",
+      "success"
+    );
+
+  }catch(e){
+
+    $("output").select();
+    document.execCommand("copy");
+
+    setStatus(
+      "✓ 결과를 복사했습니다.",
+      "success"
+    );
+
+  }
+
 }
-function decodeAll(){
- const s=$('input').value.trim();
- if(!s)return;
- const tries=[
-  ['URL Decode',()=>urlDecode(s)],['Base64 Decode',()=>b64decode(s)],['Base32 Decode',()=>base32decode(s)],
-  ['Hex Decode',()=>hexDecode(s)],['HTML Decode',()=>htmlDecode(s)],['Binary Decode',()=>binaryDecode(s)],
-  ['Octal Decode',()=>octalDecode(s)],['Decimal Decode',()=>decimalDecode(s)],
-  ['Unicode Decode',()=>unicodeDecode(s)],['Morse Decode',()=>morseDecode(s)]
- ];
- let found=[];
- for(const [name,fn] of tries){try{let r=fn();if(r&&r!==s)found.push(name+' → '+r)}catch(e){}}
- $('output').value=found.length?found.join('\n\n'):'변환 가능한 형식을 찾지 못했습니다.';
- $('status').textContent=found.length?'✓ 가능한 변환을 표시했습니다.':'⚠ 변환 가능한 형식이 없습니다.';
+
+
+async function pasteText(){
+
+  try{
+
+    $("input").value=
+      await navigator.clipboard.readText();
+
+    detect();
+
+    setStatus(
+      "✓ 클립보드 내용을 붙여넣었습니다.",
+      "success"
+    );
+
+  }catch(e){
+
+    setStatus(
+      "⚠ 클립보드 접근이 차단되었습니다.",
+      "error"
+    );
+
+  }
+
 }
+
+
+function clearAll(){
+
+  $("input").value="";
+  $("output").value="";
+  $("decimalInput").value="";
+
+  $("numberResult").innerHTML=`
+    <div class="num"><b>2진수</b><code>-</code></div>
+    <div class="num"><b>8진수</b><code>-</code></div>
+    <div class="num"><b>10진수</b><code>-</code></div>
+    <div class="num"><b>16진수</b><code>-</code></div>
+  `;
+
+  $("detectResult").innerHTML=`
+    <div class="detect">
+      <strong>대기 중</strong>
+      <span>입력 내용을 넣으면 자동으로 형식을 분석할 수 있습니다.</span>
+    </div>
+  `;
+
+  setStatus("");
+
+}
+
+
+function swapText(){
+
+  const temp=$("input").value;
+
+  $("input").value=$("output").value;
+  $("output").value=temp;
+
+  detect();
+
+}
+
+
+function useResult(){
+
+  $("input").value=$("output").value;
+
+  detect();
+
+  setStatus(
+    "✓ 결과를 입력 영역으로 옮겼습니다.",
+    "success"
+  );
+
+}
+
+
+/* =========================
+   자동 인식
+========================= */
+
+function detect(showStatus=false){
+
+  const text=$("input").value.trim();
+
+  const box=$("detectResult");
+
+  if(!text){
+
+    box.innerHTML=`
+      <div class="detect">
+        <strong>입력이 없습니다.</strong>
+        <span>분석할 문자열을 입력하세요.</span>
+      </div>
+    `;
+
+    return [];
+
+  }
+
+  const found=[];
+
+  function add(
+    method,
+    name,
+    description,
+    confidence
+  ){
+
+    found.push({
+      method,
+      name,
+      description,
+      confidence
+    });
+
+  }
+
+
+  /* URL */
+
+  if(/%(?:[0-9A-Fa-f]{2})/.test(text)){
+
+    try{
+
+      decodeURIComponent(text);
+
+      add(
+        "url",
+        "URL Encoding",
+        "%XX 형태의 URL 인코딩이 발견되었습니다.",
+        95
+      );
+
+    }catch(e){}
+
+  }
+
+
+  /* HTML */
+
+  if(
+    /&(?:amp|lt|gt|quot|apos|nbsp);/i.test(text) ||
+    /&#(?:\d+|x[0-9a-f]+);/i.test(text)
+  ){
+
+    add(
+      "html",
+      "HTML Entity",
+      "HTML Entity가 포함되어 있습니다.",
+      96
+    );
+
+  }
+
+
+  /* Unicode */
+
+  if(
+    /\\u[0-9a-fA-F]{4}/.test(text) ||
+    /\\u\{[0-9a-fA-F]{1,6}\}/.test(text)
+  ){
+
+    add(
+      "unicode",
+      "Unicode Escape",
+      "\\uXXXX 또는 \\u{XXXXX} 형태입니다.",
+      98
+    );
+
+  }
+
+
+  /* Binary */
+
+  if(
+    /^[01]+(?:\s+[01]+)*$/.test(text)
+  ){
+
+    add(
+      "binary",
+      "Binary",
+      "0과 1만으로 구성된 2진수 형태입니다.",
+      94
+    );
+
+  }
+
+
+  /* Hex */
+
+  const hexCandidate=
+    text
+      .replace(/0x/gi,"")
+      .replace(/[\s:]/g,"");
+
+  if(
+    /^[0-9a-fA-F]+$/.test(hexCandidate) &&
+    hexCandidate.length%2===0 &&
+    hexCandidate.length>=2
+  ){
+
+    add(
+      "hex",
+      "Hex / Base16",
+      "16진수 바이트 문자열로 해석할 수 있습니다.",
+      90
+    );
+
+  }
+
+
+  /* Base64 */
+
+  if(
+    /^[A-Za-z0-9+/]+={0,2}$/.test(text) &&
+    text.length%4===0 &&
+    text.length>=4
+  ){
+
+    try{
+
+      const decoded=base64Decode(text);
+
+      if(decoded){
+
+        add(
+          "base64",
+          "Base64",
+          "유효한 Base64 문자열로 해석됩니다.",
+          88
+        );
+
+      }
+
+    }catch(e){}
+
+  }
+
+
+  /* Base32 */
+
+  if(
+    /^[A-Z2-7]+=*$/i.test(text) &&
+    text.replace(/=/g,"").length>=2
+  ){
+
+    try{
+
+      base32Decode(text);
+
+      add(
+        "base32",
+        "Base32",
+        "Base32 형식으로 해석될 가능성이 있습니다.",
+        80
+      );
+
+    }catch(e){}
+
+  }
+
+
+  /* Octal */
+
+  if(
+    /^[0-7]+(?:\s+[0-7]+)*$/.test(text) &&
+    text.includes(" ")
+  ){
+
+    add(
+      "octal",
+      "Octal / 8진법",
+      "공백으로 구분된 8진수 형태입니다.",
+      78
+    );
+
+  }
+
+
+  /* Decimal */
+
+  if(
+    /^\d+(?:\s+\d+)+$/.test(text)
+  ){
+
+    add(
+      "decimal",
+      "Decimal / 10진법",
+      "공백으로 구분된 10진수 바이트 형태입니다.",
+      76
+    );
+
+    add(
+      "ascii",
+      "ASCII",
+      "ASCII 문자 코드일 가능성이 있습니다.",
+      74
+    );
+
+  }
+
+
+  /* Morse */
+
+  if(
+    /^[.\-\/\s]+$/.test(text) &&
+    /[.\-]/.test(text)
+  ){
+
+    add(
+      "morse",
+      "Morse Code",
+      "점과 선으로 구성된 모스 부호 형태입니다.",
+      92
+    );
+
+  }
+
+
+  /* 정렬 */
+
+  found.sort(
+    (a,b)=>b.confidence-a.confidence
+  );
+
+
+  if(!found.length){
+
+    box.innerHTML=`
+      <div class="detect">
+        <strong>특정 형식을 찾지 못했습니다.</strong>
+        <span>
+          일반 텍스트이거나 지원하지 않는 형식일 수 있습니다.
+        </span>
+      </div>
+    `;
+
+    return [];
+
+  }
+
+
+  box.innerHTML=found.map((item,index)=>`
+
+    <div class="detect ${index===0?"primary":""}">
+
+      <strong>
+        ${index===0?"⭐ ":""}${item.name}
+      </strong>
+
+      <span>
+        ${item.description}
+      </span>
+
+      <span style="margin-top:5px">
+        인식 가능성: ${item.confidence}%
+      </span>
+
+      <button
+        class="small ${index===0?"success":""}"
+        onclick="useDetected('${item.method}')"
+      >
+        ${index===0?"이 형식으로 Decode":"선택"}
+      </button>
+
+    </div>
+
+  `).join("");
+
+  if(showStatus){
+
+    setStatus(
+      `✓ ${found.length}개의 가능한 형식을 찾았습니다.`,
+      "success"
+    );
+
+  }
+
+  return found;
+
+}
+
+
+/* =========================
+   자동 인식 → Decode
+========================= */
+
+function autoDecode(){
+
+  const found=detect(true);
+
+  if(!found.length){
+
+    setStatus(
+      "⚠ 자동으로 Decode할 형식을 찾지 못했습니다.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  const best=found[0];
+
+  $("method").value=best.method;
+
+  updateToolInfo();
+
+  setMode("decode");
+
+  convert();
+
+}
+
+
+/* =========================
+   감지된 도구 사용
+========================= */
+
+function useDetected(method){
+
+  $("method").value=method;
+
+  updateToolInfo();
+
+  setMode("decode");
+
+  convert();
+
+  document
+    .getElementById("converter")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+}
+
+
+/* =========================
+   도구 카드
+========================= */
+
+function selectTool(method){
+
+  $("method").value=method;
+
+  updateToolInfo();
+
+  document
+    .getElementById("converter")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+}
+
+
+/* =========================
+   진법 변환
+========================= */
+
 function convertNumbers(){
- const raw=$('decimalInput').value.trim();
- if(!/^-?\d+$/.test(raw)){
-  $('numberResult').innerHTML='<div class="num full" style="grid-column:1/-1"><b>오류</b><code>정수만 입력하세요. 예: 255</code></div>';
-  return;
- }
- const n=BigInt(raw);
- $('numberResult').innerHTML=
- `<div class="num"><b>2진수</b><code>${n.toString(2)}</code></div>
-  <div class="num"><b>8진수</b><code>${n.toString(8)}</code></div>
-  <div class="num"><b>10진수</b><code>${n.toString(10)}</code></div>
-  <div class="num"><b>16진수</b><code>${n.toString(16).toUpperCase()}</code></div>`;
+
+  const raw=$("decimalInput").value.trim();
+
+  if(!/^-?\d+$/.test(raw)){
+
+    $("numberResult").innerHTML=`
+      <div class="num" style="grid-column:1/-1">
+        <b>오류</b>
+        <code>정수를 입력하세요. 예: 255</code>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  try{
+
+    const n=BigInt(raw);
+
+    $("numberResult").innerHTML=`
+
+      <div class="num">
+        <b>2진수</b>
+        <code>${n.toString(2)}</code>
+      </div>
+
+      <div class="num">
+        <b>8진수</b>
+        <code>${n.toString(8)}</code>
+      </div>
+
+      <div class="num">
+        <b>10진수</b>
+        <code>${n.toString(10)}</code>
+      </div>
+
+      <div class="num">
+        <b>16진수</b>
+        <code>${n.toString(16).toUpperCase()}</code>
+      </div>
+
+    `;
+
+  }catch(e){
+
+    $("numberResult").innerHTML=`
+      <div class="num" style="grid-column:1/-1">
+        <b>오류</b>
+        <code>올바른 정수를 입력하세요.</code>
+      </div>
+    `;
+
+  }
+
 }
-$('decimalInput').addEventListener('keydown',e=>{if(e.key==='Enter')convertNumbers()});
-$('input').addEventListener('input',()=>detect());
-$('input').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter')convert()});
+
+
+/* =========================
+   이벤트
+========================= */
+
+$("input").addEventListener(
+  "input",
+  ()=>detect(false)
+);
+
+$("decimalInput").addEventListener(
+  "keydown",
+  e=>{
+    if(e.key==="Enter"){
+      convertNumbers();
+    }
+  }
+);
+
+$("input").addEventListener(
+  "keydown",
+  e=>{
+    if(
+      (e.ctrlKey||e.metaKey) &&
+      e.key==="Enter"
+    ){
+      convert();
+    }
+  }
+);
+
+
+/* 초기화 */
+
+updateToolInfo();
+
 </script>
+
 </body>
 </html>
