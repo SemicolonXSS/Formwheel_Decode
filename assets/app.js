@@ -769,7 +769,7 @@ function convert(){
     $("output").value="";
 
     setStatus(
-      "⚠ "+e.message,
+      "⚠ "+(e instanceof TypeError && /decode|encoded data/i.test(e.message)?"깨진 UTF-8 바이트입니다. 입력 형식을 확인하세요.":e.message),
       "error"
     );
 
