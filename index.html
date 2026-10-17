@@ -61,31 +61,7 @@
       <option value="hex">Hex / Base16</option>
       <option value="url">URL Encode</option>
       <option value="html">HTML Entity</option>
-      <option value="rot1">ROT1</option>
-      <option value="rot2">ROT2</option>
-      <option value="rot3">ROT3</option>
-      <option value="rot4">ROT4</option>
-      <option value="rot5">ROT5</option>
-      <option value="rot6">ROT6</option>
-      <option value="rot7">ROT7</option>
-      <option value="rot8">ROT8</option>
-      <option value="rot9">ROT9</option>
-      <option value="rot10">ROT10</option>
-      <option value="rot11">ROT11</option>
-      <option value="rot12">ROT12</option>
-      <option value="rot13">ROT13</option>
-      <option value="rot14">ROT14</option>
-      <option value="rot15">ROT15</option>
-      <option value="rot16">ROT16</option>
-      <option value="rot17">ROT17</option>
-      <option value="rot18">ROT18</option>
-      <option value="rot19">ROT19</option>
-      <option value="rot20">ROT20</option>
-      <option value="rot21">ROT21</option>
-      <option value="rot22">ROT22</option>
-      <option value="rot23">ROT23</option>
-      <option value="rot24">ROT24</option>
-      <option value="rot25">ROT25</option>
+      <option value="rot">ROT (1~25)</option>
       <option value="rot47">ROT47</option>
       <option value="atbash">Atbash</option>
       <option value="binary">Binary / 2진법</option>
@@ -98,6 +74,7 @@
 
     </select>
 
+    <label id="rotShiftPicker" for="rotShift" style="display:none;align-items:center;gap:6px;white-space:nowrap">ROT 값 <select id="rotShift" aria-label="ROT 이동 칸 수" onchange="updateToolInfo()"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13" selected>13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option></select></label>
     <button onclick="convert()">변환하기</button>
   </div>
 
@@ -330,7 +307,7 @@
 </footer>
 
 
-<script src="./assets/app.js?v=20261017-rot25"></script>
+<script src="./assets/app.js?v=20261017-rot-picker"></script>
 
 <script type="module" src="https://semicolonxss.github.io/Formwheel/assets/live-presence.js?v=20261011-heartbeat2"></script>
 </body>
