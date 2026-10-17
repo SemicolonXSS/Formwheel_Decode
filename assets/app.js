@@ -34,9 +34,129 @@ html:[
 "<, >, &, 따옴표 등의 문자를 HTML Entity로 변환합니다."
 ],
 
+rot1:[
+"ROT1",
+"영문 알파벳을 1칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot2:[
+"ROT2",
+"영문 알파벳을 2칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot3:[
+"ROT3",
+"영문 알파벳을 3칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot4:[
+"ROT4",
+"영문 알파벳을 4칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot5:[
+"ROT5",
+"영문 알파벳을 5칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot6:[
+"ROT6",
+"영문 알파벳을 6칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot7:[
+"ROT7",
+"영문 알파벳을 7칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot8:[
+"ROT8",
+"영문 알파벳을 8칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot9:[
+"ROT9",
+"영문 알파벳을 9칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot10:[
+"ROT10",
+"영문 알파벳을 10칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot11:[
+"ROT11",
+"영문 알파벳을 11칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot12:[
+"ROT12",
+"영문 알파벳을 12칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
 rot13:[
 "ROT13",
-"영문 알파벳을 13칸 이동합니다. Encode와 Decode가 동일한 방식으로 작동합니다."
+"영문 알파벳을 13칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot14:[
+"ROT14",
+"영문 알파벳을 14칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot15:[
+"ROT15",
+"영문 알파벳을 15칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot16:[
+"ROT16",
+"영문 알파벳을 16칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot17:[
+"ROT17",
+"영문 알파벳을 17칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot18:[
+"ROT18",
+"영문 알파벳을 18칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot19:[
+"ROT19",
+"영문 알파벳을 19칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot20:[
+"ROT20",
+"영문 알파벳을 20칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot21:[
+"ROT21",
+"영문 알파벳을 21칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot22:[
+"ROT22",
+"영문 알파벳을 22칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot23:[
+"ROT23",
+"영문 알파벳을 23칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot24:[
+"ROT24",
+"영문 알파벳을 24칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
+],
+
+rot25:[
+"ROT25",
+"영문 알파벳을 25칸 이동합니다. Decode는 반대 방향으로 이동하여 원문을 복원합니다."
 ],
 
 rot47:[
@@ -326,19 +446,15 @@ function htmlDecode(s){
    ROT13
 ========================= */
 
-function rot13(s){
-
+function rotShift(s,amount){
+  const shift=((amount%26)+26)%26;
   return s.replace(/[A-Za-z]/g,c=>{
-
     const base=c<="Z"?65:97;
-
-    return String.fromCharCode(
-      base+(c.charCodeAt(0)-base+13)%26
-    );
-
+    return String.fromCharCode(base+(c.charCodeAt(0)-base+shift)%26);
   });
-
 }
+
+function rot13(s){ return rotShift(s,13); }
 
 
 /* =========================
@@ -704,8 +820,32 @@ function convert(){
           :htmlDecode(s);
         break;
 
+      case "rot1":
+      case "rot2":
+      case "rot3":
+      case "rot4":
+      case "rot5":
+      case "rot6":
+      case "rot7":
+      case "rot8":
+      case "rot9":
+      case "rot10":
+      case "rot11":
+      case "rot12":
       case "rot13":
-        result=rot13(s);
+      case "rot14":
+      case "rot15":
+      case "rot16":
+      case "rot17":
+      case "rot18":
+      case "rot19":
+      case "rot20":
+      case "rot21":
+      case "rot22":
+      case "rot23":
+      case "rot24":
+      case "rot25":
+        result=rotShift(s,mode==="encode"?Number(m.slice(3)):-Number(m.slice(3)));
         break;
 
       case "rot47":
