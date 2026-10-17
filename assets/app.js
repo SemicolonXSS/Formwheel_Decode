@@ -816,12 +816,25 @@ async function copyResult(){
 
   }catch(e){
 
-    $("output").select();
-    document.execCommand("copy");
+    const output=$("output");
+    const start=output.selectionStart;
+    const end=output.selectionEnd;
+    output.focus();
+    output.select();
 
+    let copied=false;
+    try{
+      copied=document.execCommand("copy");
+    }catch(copyError){
+      copied=false;
+    }
+
+    output.setSelectionRange(start,end);
     setStatus(
-      "✓ 결과를 복사했습니다.",
-      "success"
+      copied
+        ?"✓ 결과를 복사했습니다."
+        :"⚠ 자동 복사에 실패했습니다. 결과를 길게 눌러 직접 복사해주세요.",
+      copied?"success":"error"
     );
 
   }
