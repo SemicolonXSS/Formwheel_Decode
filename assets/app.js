@@ -762,6 +762,7 @@ function convert(){
 
     $("output").value=result;
 
+    if(mode==="decode" && s.trim() && result && window.opener && !window.opener.closed)window.opener.postMessage({type:"formwheel-spotlight-result-v1",project:"Decode",value:1},"https://semicolonxss.github.io");
     setStatus("✓ 변환 완료","success");
 
   }catch(e){
