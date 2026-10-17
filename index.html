@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://semicolonxss.github.io/Formwheel/shared/formwheel-ui.css">
 <script defer src="https://semicolonxss.github.io/Formwheel/shared/formwheel-ui.js"></script>
 <meta property="og:title" content="Decode · Formwheel">
-<meta property="og:description" content="ROT13, Base64, HTML, 진법 등을 인코딩하고 디코딩하는 도구.">
+<meta property="og:description" content="ROT1~ROT25, ROT47, Base64, HTML, 진법 등을 인코딩하고 디코딩하는 도구.">
 <meta property="og:image" content="https://semicolonxss.github.io/Formwheel_Decode/assets/thumbnail.svg">
 <link rel="stylesheet" href="assets/formwheel-brand.css?v=20261008-hub-logo">
 <link rel="icon" type="image/svg+xml" href="https://semicolonxss.github.io/Formwheel/assets/formwheel-favicon.svg">
@@ -61,7 +61,31 @@
       <option value="hex">Hex / Base16</option>
       <option value="url">URL Encode</option>
       <option value="html">HTML Entity</option>
+      <option value="rot1">ROT1</option>
+      <option value="rot2">ROT2</option>
+      <option value="rot3">ROT3</option>
+      <option value="rot4">ROT4</option>
+      <option value="rot5">ROT5</option>
+      <option value="rot6">ROT6</option>
+      <option value="rot7">ROT7</option>
+      <option value="rot8">ROT8</option>
+      <option value="rot9">ROT9</option>
+      <option value="rot10">ROT10</option>
+      <option value="rot11">ROT11</option>
+      <option value="rot12">ROT12</option>
       <option value="rot13">ROT13</option>
+      <option value="rot14">ROT14</option>
+      <option value="rot15">ROT15</option>
+      <option value="rot16">ROT16</option>
+      <option value="rot17">ROT17</option>
+      <option value="rot18">ROT18</option>
+      <option value="rot19">ROT19</option>
+      <option value="rot20">ROT20</option>
+      <option value="rot21">ROT21</option>
+      <option value="rot22">ROT22</option>
+      <option value="rot23">ROT23</option>
+      <option value="rot24">ROT24</option>
+      <option value="rot25">ROT25</option>
       <option value="rot47">ROT47</option>
       <option value="atbash">Atbash</option>
       <option value="binary">Binary / 2진법</option>
@@ -245,8 +269,8 @@
     </div>
 
     <div class="tool" onclick="selectTool('rot13')">
-      <b>ROT13</b>
-      <span>알파벳을 13칸 이동시키는 간단한 치환 방식입니다.</span>
+      <b>ROT1~ROT25</b>
+      <span>알파벳 이동 칸 수를 1~25 중에서 선택하세요. Decode는 반대 방향으로 이동합니다.</span>
     </div>
 
     <div class="tool" onclick="selectTool('rot47')">
@@ -306,7 +330,7 @@
 </footer>
 
 
-<script src="./assets/app.js?v=20261017-spotlight"></script>
+<script src="./assets/app.js?v=20261017-rot25"></script>
 
 <script type="module" src="https://semicolonxss.github.io/Formwheel/assets/live-presence.js?v=20261011-heartbeat2"></script>
 </body>
