@@ -11,7 +11,7 @@ const toolInfo={
 
 base64:[
 "Base64",
-"텍스트를 Base64 문자열로 변환하거나 다시 UTF-8 텍스트로 복원합니다."
+"텍스트를 Base64로 변환하거나 복원합니다. Base64URL(-, _) 입력도 지원합니다."
 ],
 
 base32:[
@@ -146,8 +146,8 @@ function base64Encode(s){
 
 function base64Decode(s){
 
-  s=s.trim();
-
+  s=s.trim().replace(/-/g,"+").replace(/_/g,"/").replace(/\s+/g,"");
+  if(!/^[A-Za-z0-9+/]*={0,2}$/.test(s) || s.length%4===1) throw Error("Base64 형식이 올바르지 않습니다.");
   let binary=atob(s);
 
   let bytes=Uint8Array.from(
@@ -1052,8 +1052,8 @@ function detect(showStatus=false){
   /* Base64 */
 
   if(
-    /^[A-Za-z0-9+/]+={0,2}$/.test(text) &&
-    text.length%4===0 &&
+    /^[A-Za-z0-9+/_-]+={0,2}$/.test(text) &&
+    text.length%4!==1 &&
     text.length>=4
   ){
 
