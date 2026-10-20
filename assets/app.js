@@ -401,9 +401,9 @@ function binaryDecode(s){
 
   if(
     !parts.length ||
-    parts.some(x=>!/^[01]{1,8}$/.test(x))
+    parts.some(x=>!/^[01]{8}$/.test(x))
   ){
-    throw Error("2진수는 0과 1만 사용해야 합니다.");
+    throw Error("2진수는 공백으로 구분된 8자리 바이트로 입력하세요.");
   }
 
   return utf8Decode(
@@ -443,7 +443,7 @@ function decimalDecode(s){
 
     const n=Number(x);
 
-    if(n<0 || n>255){
+    if(!Number.isInteger(n) || n<0 || n>255){
       throw Error("UTF-8 바이트는 0~255 범위여야 합니다.");
     }
 
