@@ -887,7 +887,7 @@ function clearAll(){
     </div>
   `;
 
-  setStatus("");
+  setStatus("✓ 입력과 결과를 초기화했어요.","success");
 
 }
 
@@ -900,6 +900,7 @@ function swapText(){
   $("output").value=temp;
 
   detect();
+  setStatus("⇄ 입력과 결과를 서로 바꿨어요.","success");
 
 }
 
