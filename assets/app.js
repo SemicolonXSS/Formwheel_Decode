@@ -598,7 +598,7 @@ function unicodeEncode(s){
 function unicodeDecode(s){
  const valid=/\\u(?:\{[0-9a-fA-F]{1,6}\}|[0-9a-fA-F]{4})/g;
  if(/\\u/.test(s.replace(valid,'')))throw Error('Unicode Escape 형식이 잘못되었습니다.');
- const decoded=s.replace(/\\u\{([0-9a-fA-F]{1,6})\}/g,(_,h)=>String.fromCodePoint(parseInt(h,16))).replace(/\\u([0-9a-fA-F]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));
+ const decoded=s.replace(/\\u\{([0-9a-fA-F]{1,6})\}/g,(_,h)=>{const n=parseInt(h,16);if(n>0x10ffff)throw Error("Unicode 범위를 벗어났습니다.");return String.fromCodePoint(n);}).replace(/\\u([0-9a-fA-F]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));
  for(const char of decoded){const cp=char.codePointAt(0);if(cp>=0xd800&&cp<=0xdfff)throw Error('완성되지 않은 서로게이트 문자입니다.');}return decoded;
 }
 
@@ -642,6 +642,7 @@ function morseEncode(s){
 
 function morseDecode(s){
 
+  if(!s.trim())return "";
   return s.trim()
     .split(/\s+/)
     .map(x=>{
