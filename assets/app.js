@@ -394,7 +394,10 @@ function binaryEncode(s){
 function binaryDecode(s){
   if(!String(s).trim())return "";
 
-  const parts=s.trim().split(/\s+/);
+  const trimmed=s.trim();
+  // Support continuous octets as well as whitespace-separated binary bytes.
+  const parts=/\s/.test(trimmed) ? trimmed.split(/\s+/) :
+    (/^[01]+$/.test(trimmed) && trimmed.length%8===0 ? trimmed.match(/.{8}/g) : [trimmed]);
 
   if(
     !parts.length ||
