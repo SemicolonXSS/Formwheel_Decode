@@ -867,6 +867,38 @@ async function pasteText(){
 }
 
 
+/* 세랜: 선택한 도구와 모드에 맞는 학습용 예시 */
+function fillExample(){
+  const method=$("method").value;
+  const samples={
+    base64:["안녕, Formwheel!","7JWI64WVLCBGb3Jtd2hlZWwh"],
+    base32:["Hello","JBSWY3DP"],
+    hex:["Hi","48 69"],
+    url:["안녕 Formwheel!","%EC%95%88%EB%85%95%20Formwheel!"],
+    html:["<Formwheel> & Decode","&lt;Formwheel&gt; &amp; Decode"],
+    rot:["Hello Formwheel","Uryyb Sbezjurry"],
+    rot47:["Hello!","w6==@P"],
+    atbash:["Hello","Svool"],
+    binary:["Hi","01001000 01101001"],
+    decimal:["Hi","72 105"],
+    hexnumber:["255","FF"],
+    octal:["Hi","110 151"],
+    ascii:["Hi","72 105"],
+    unicode:["안녕","\\\\u{c548}\\\\u{b155}"],
+    morse:["SOS","... --- ..."]
+  };
+  const pair=samples[method]||["Hello","Hello"];
+  // ROT 예시는 사용자가 선택한 이동 값에 맞게 계산한다.
+  const value=method==="rot"&&mode==="decode"
+    ?rotShift("Hello Formwheel",Number($("rotShift").value))
+    :pair[mode==="encode"?0:1];
+  $("input").value=value;
+  $("output").value="";
+  detect(false);
+  setStatus("✓ 예시를 넣었습니다. 변환하기를 눌러 확인해 보세요.","success");
+  $("input").focus();
+}
+
 function clearAll(){
 
   $("input").value="";
