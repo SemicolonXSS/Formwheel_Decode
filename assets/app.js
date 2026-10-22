@@ -884,7 +884,7 @@ function fillExample(){
     hexnumber:["255","FF"],
     octal:["Hi","110 151"],
     ascii:["Hi","72 105"],
-    unicode:["안녕","\\\\u{c548}\\\\u{b155}"],
+    unicode:["안녕","\\u{c548}\\u{b155}"],
     morse:["SOS","... --- ..."]
   };
   const pair=samples[method]||["Hello","Hello"];
