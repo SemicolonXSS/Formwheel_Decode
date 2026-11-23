@@ -4,7 +4,7 @@
   --bg:#f7f8fc;
   --card:#fff;
   --text:#171923;
-  --muted:#6b7280;
+  --muted:#626976;
   --line:#e5e7eb;
   --soft:#f1f3f7;
   --accent:#111827;
@@ -166,7 +166,7 @@ h3{
 .mode button{
   flex:1;
   background:transparent;
-  color:#6b7280;
+  color:#626976;
   box-shadow:none;
 }
 
@@ -207,7 +207,7 @@ select{
 input:focus,
 select:focus,
 textarea:focus{
-  border-color:#9ca3af;
+  border-color:#626976;
 }
 
 button{
@@ -239,7 +239,7 @@ button.small{
 }
 
 .label{
-  color:#6b7280;
+  color:#626976;
   font-size:12px;
   font-weight:800;
   margin:0 0 8px;
@@ -406,7 +406,7 @@ textarea{
 
 footer{
   text-align:center;
-  color:#9ca3af;
+  color:#626976;
   font-size:12px;
   padding:20px;
 }

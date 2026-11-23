@@ -15,7 +15,7 @@
 <link rel="icon" type="image/svg+xml" href="https://semicolonxss.github.io/Formwheel/assets/formwheel-favicon.svg">
 <style id="secol-accessibility-css">#secol-skip-link{position:fixed;left:12px;top:-100px;z-index:100000;padding:12px 18px;background:#fff;color:#172033;border:2px solid #172033;border-radius:10px;font:700 15px system-ui;text-decoration:none}#secol-skip-link:focus{top:12px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #e87920;outline-offset:3px}@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important}}</style></head>
 
-<body><a id="secol-skip-link" href="#secol-main-content">본문으로 건너뛰기</a><span id="secol-main-content" tabindex="-1" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)" aria-label="본문 시작"></span>
+<body><a id="secol-skip-link" href="#secol-main-content">본문으로 건너뛰기</a>
 
 <header>
   <div class="nav">
@@ -30,7 +30,7 @@
   </div>
 </header>
 
-<main>
+<main id="secol-main-content" tabindex="-1">
 
 <section class="hero">
   <div class="badge">FORMWHEEL TOOL</div>
@@ -54,7 +54,7 @@
   </div>
 
   <div class="toolbar">
-    <select id="method" onchange="updateToolInfo()">
+    <select id="method" onchange="updateToolInfo()" aria-label="변환 방식">
 
       <option value="base64">Base64</option>
       <option value="base32">Base32</option>
@@ -90,7 +90,7 @@
   <textarea
     id="input"
     placeholder="변환할 내용을 입력하세요..."
-  ></textarea>
+   aria-label="입력 내용"></textarea>
 
   <div class="actions">
     <button class="secondary" onclick="swapText()">↔ 입력 ↔ 결과</button>
@@ -113,7 +113,7 @@
     id="output"
     readonly
     placeholder="변환 결과가 여기에 표시됩니다."
-  ></textarea>
+   aria-label="변환 결과"></textarea>
 
   <div class="actions">
     <button onclick="copyResult()">결과 복사</button>
@@ -137,7 +137,7 @@
 <!-- 자동 인식 -->
 <section class="card full" id="detect">
 
-  <h3>🔍 자동 인식</h3>
+  <h2>🔍 자동 인식</h2>
 
   <p class="description">
     입력된 문자열을 분석하여 Base64, URL Encoding, HTML Entity,
@@ -165,7 +165,7 @@
 <!-- 진법 -->
 <section class="card full" id="numbers">
 
-  <h3>🔢 진법 변환</h3>
+  <h2>🔢 진법 변환</h2>
 
   <p class="description">
     하나의 숫자를 2진수, 8진수, 10진수, 16진수로 한 번에 변환합니다.
@@ -177,7 +177,7 @@
       id="decimalInput"
       type="text"
       placeholder="10진수 입력 예: 255"
-    >
+     aria-label="변환할 숫자">
 
     <button onclick="convertNumbers()">진법 변환</button>
 
@@ -213,7 +213,7 @@
 <!-- 도구 설명 -->
 <section class="card full">
 
-  <h3>📚 지원 도구</h3>
+  <h2>📚 지원 도구</h2>
 
   <p class="description">
     원하는 도구를 선택하면 위 변환기에서 바로 사용할 수 있습니다.
@@ -304,7 +304,7 @@
 </main>
 
 <footer>
-  FormWheel Decode · 텍스트 변환 도구 <details style="font-size:10px;opacity:.5;margin-top:8px"><summary style="cursor:pointer">···</summary><span>DECODE-ECHO</span></details>
+  FormWheel Decode · 텍스트 변환 도구 <details style="font-size:10px;margin-top:8px"><summary style="cursor:pointer">···</summary><span>DECODE-ECHO</span></details>
 </footer>
 
 
